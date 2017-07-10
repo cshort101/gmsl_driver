@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(gmsl_backup)
+project(gmsl_single_camera)
 
 set (CMAKE_CXX_STANDARD 11)
 
@@ -19,7 +19,7 @@ find_package(OpenCV REQUIRED )
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   geometry_msgs
-  cv_bridge  
+  cv_bridge 
   image_transport
 )
 
@@ -37,7 +37,7 @@ include_directories(
   ${GLEW_INCLUDE_DIR}
 )
 
-
+# TODO: add a FindNvmedia.cmake file for this? Why does it not exist?
 include_directories(/usr/share/visionworks/sources/3rdparty/nvmedia/
 /usr/share/visionworks/VisionWorks-1.6-Samples/3rdparty/glfw3/include/
 )

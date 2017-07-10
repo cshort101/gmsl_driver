@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>gmsl_single_camera</name>
+  <version>1.0.0</version>
+  <description>
+    Wrapper for Nvidia Driveworks
+  </description>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>roscpp</depend>
+  <depend>libglew-dev</depend><!--TODO: Figure out what actually needs this library-->
+  <maintainer email="">wei</maintainer>
+  <license>BSD</license>
+
+</package>
