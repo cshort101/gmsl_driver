@@ -28,83 +28,35 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef DRIVEWORKSSDK_RESOURCEMANAGER_HPP__
-#define DRIVEWORKSSDK_RESOURCEMANAGER_HPP__
 
-#include <memory>
-
-#include <dw/core/Context.h>
-#include <dw/image/ImageStreamer.h>
-#include <dw/renderer/Renderer.h>
-
-#include <Window.hpp>
-#include <WindowEGL.hpp>
-#include <WindowGLFW.hpp>
-#include <ProgramArguments.hpp>
 #include <dw/sensors/Sensors.h>
+#include <dw/sensors/camera/Camera.h>
+#include <dw/image/ImageStreamer.h>
+#include <dw/image/FormatConverter.h> 
 
-// Sample Framework
-#include <SampleFramework.hpp>
+#include <string>
+#include <vector>
 
-/**
- * RAII Manager for the resources that are not the object of this sample
- **/
+class Camera {
 
-class ResourceManager
-{
-  private:
-    dwContextHandle_t m_SDKHandle;
-    dwRendererHandle_t m_rendererHandle;
-    dwSALHandle_t m_salHandle;
-    
-  protected:
-    dwStatus initDriveworks();
-    dwStatus initSAL();
-    dwStatus initRenderer();
+	
+	public:
+		Camera(dwSensorHandle_t sensor, dwSensorParams sensorParams, dwSALHandle_t sal) {}
+		~Camera();
 
-    void releaseRenderer();
-    void releaseSAL();
-    void releaseDriveworks();
+		dwSensorHandle_t getSensor() { return sensor;}
+		
+		dwSensorHandle_t sensor;
+		uint32_t numSiblings;
+		uint32_t width;
+		uint32_t height;
+		dwImageStreamerHandle_t streamer;
+		dwImageFormatConverterHandle_t converter;
+		std::vector<dwImageNvMedia *> rgbaImagePool;
+		dwSensorSerializerHandle_t serializer;
+		dwImageType imageType;
 
-  public:
-    ResourceManager()
-            : m_SDKHandle(DW_NULL_HANDLE)
-            , m_rendererHandle(DW_NULL_HANDLE)
-            , m_salHandle(DW_NULL_HANDLE)
-    {}
-
-    ~ResourceManager();
-
-    dwStatus initializeResources(int argc,
-                                 const char *argv[],
-                                 const ProgramArguments* arguments,
-                                 void (*userKeyPressCallback)(int)) ;
-
-    const dwContextHandle_t getSDK() const
-    {
-        return m_SDKHandle;
-    }
-
-    const dwRendererHandle_t getRenderer() const
-    {
-        return m_rendererHandle;
-    }
-
-    const dwSALHandle_t getSAL() const
-    {
-        return m_salHandle;
-    }
-
-    WindowBase * getWindow()
-    {
-	return window;
-    }
-
-    std::string getArgument(const char *name) const;
-
-    void setWindowSize(const int32_t width, const int32_t height);
-    WindowBase *window;
+	
+	protected:
 
 };
-
-#endif //DRIVEWORKSSDK_RESOURCEMANAGER_HPP__

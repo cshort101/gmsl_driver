@@ -35,6 +35,10 @@
 #include <xf86drm.h>
 #include <xf86drmMode.h>
 
+#ifndef DRM_MODE_PROP_EXTENDED_TYPE
+#define DRM_MODE_PROP_EXTENDED_TYPE	0x0000ffc0
+#endif
+
 static PFNEGLGETPLATFORMDISPLAYEXTPROC eglGetPlatformDisplayEXT = nullptr;
 static PFNEGLQUERYDEVICESEXTPROC eglQueryDevicesEXT             = nullptr;
 static PFNEGLQUERYDEVICESTRINGEXTPROC eglQueryDeviceStringEXT   = nullptr;

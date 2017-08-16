@@ -28,9 +28,11 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#include <common/WindowGLFW.hpp>
-#include <common/SampleFramework.hpp>
 
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "ResourceManager.hpp"
 
 ResourceManager::~ResourceManager()
@@ -153,11 +155,11 @@ dwStatus ResourceManager::initializeResources(int argc,
         return res;
     }
 
-    res = initRenderer();
-    if(DW_SUCCESS != res) {
-        std::cerr << "Cannot initialize DriveWorks' renderer" << std::endl;
-        return res;
-    }
+    //res = initRenderer();
+    //if(DW_SUCCESS != res) {
+    //    std::cerr << "Cannot initialize DriveWorks' renderer" << std::endl;
+    //    return res;
+    //}
 
     res = initSAL();
     if(DW_SUCCESS != res) {

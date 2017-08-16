@@ -28,83 +28,56 @@
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef DRIVEWORKSSDK_RESOURCEMANAGER_HPP__
-#define DRIVEWORKSSDK_RESOURCEMANAGER_HPP__
 
-#include <memory>
+#include <Camera.hpp>
 
-#include <dw/core/Context.h>
-#include <dw/image/ImageStreamer.h>
-#include <dw/renderer/Renderer.h>
-
-#include <Window.hpp>
-#include <WindowEGL.hpp>
-#include <WindowGLFW.hpp>
-#include <ProgramArguments.hpp>
-#include <dw/sensors/Sensors.h>
-
-// Sample Framework
-#include <SampleFramework.hpp>
-
-/**
- * RAII Manager for the resources that are not the object of this sample
- **/
-
-class ResourceManager
+Camera::Camera(dwSensorHandle_t *sensor, dwSensorParams salParams, dwSALHandle_t sal)
 {
-  private:
-    dwContextHandle_t m_SDKHandle;
-    dwRendererHandle_t m_rendererHandle;
-    dwSALHandle_t m_salHandle;
-    
-  protected:
-    dwStatus initDriveworks();
-    dwStatus initSAL();
-    dwStatus initRenderer();
+	
+	dwStatus result = dwSAL_createSensor(&salSensor, salParams, sal);
 
-    void releaseRenderer();
-    void releaseSAL();
-    void releaseDriveworks();
+	if (result == DW_SUCCESS) {
 
-  public:
-    ResourceManager()
-            : m_SDKHandle(DW_NULL_HANDLE)
-            , m_rendererHandle(DW_NULL_HANDLE)
-            , m_salHandle(DW_NULL_HANDLE)
-    {}
+		cam.sensor = sensor;
 
-    ~ResourceManager();
+		dwImageProperties cameraImageProperties;
+		dwSensorCamera_getImageProperties(&cameraImageProperties,
+				DW_CAMERA_PROCESSED_IMAGE,
+				this->sensor);
 
-    dwStatus initializeResources(int argc,
-                                 const char *argv[],
-                                 const ProgramArguments* arguments,
-                                 void (*userKeyPressCallback)(int)) ;
+		dwCameraProperties cameraProperties;
+		dwSensorCamera_getSensorProperties(&cameraProperties, this->sensor);
 
-    const dwContextHandle_t getSDK() const
-    {
-        return m_SDKHandle;
-    }
+		width = cameraImageProperties.width;
+		height = cameraImageProperties.height;
+		imageType = cameraImageProperties.imageType;
+		numSiblings = cameraProperties.siblings;
+	}
+	else {
+		std::cerr << "Cannot create driver: " << salParams.protocol
+		    << " with params: " << salParams.parameters << std::endl
+		    << "Error: " << dwGetStatusName(result) << std::endl;
+		if (result == DW_INVALID_ARGUMENT) {
+		    std::cerr << "It is possible the given camera is not supported. "
+		}
+	}
+}
 
-    const dwRendererHandle_t getRenderer() const
-    {
-        return m_rendererHandle;
-    }
+Camera::~Camera()
+{
+	if (serializer) {
+		dwSensorSerializer_stop(serializer);
+		dwSensorSerializer_release(&serializer);
+    	}
+	dwSensor_stop(sensor)
+	for (auto frame : rgbaImagePool) {
+		NvMediaImageDestroy(frame->img);
+		delete frame;
+	}
+	if (converter) {
+		dwImageFormatConverter_release(&converter);
+	}
+}
+	
 
-    const dwSALHandle_t getSAL() const
-    {
-        return m_salHandle;
-    }
 
-    WindowBase * getWindow()
-    {
-	return window;
-    }
-
-    std::string getArgument(const char *name) const;
-
-    void setWindowSize(const int32_t width, const int32_t height);
-    WindowBase *window;
-
-};
-
-#endif //DRIVEWORKSSDK_RESOURCEMANAGER_HPP__

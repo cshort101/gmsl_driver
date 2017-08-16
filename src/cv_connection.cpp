@@ -2,6 +2,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include <string>
 
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -9,8 +10,8 @@
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/image_encodings.h>
 
-OpenCVConnector::OpenCVConnector() : it(nh), counter(0)	{
-   pub = it.advertise("camera/image", 1);
+OpenCVConnector::OpenCVConnector(std::string topic_name) : it(nh), counter(0)	{
+   pub = it.advertise(topic_name, 1);
     
 
 }
