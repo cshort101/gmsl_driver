@@ -307,7 +307,7 @@ void runNvMedia_pipeline(WindowBase *window, dwRendererHandle_t renderer, dwCont
     // Create a topic for each camera attached to each CSI port
     // Topic naming scheme is port/neighbor_idx/image
     for (int i = 0; i < cameras.size(); i++) {
-	for (int neighbor = 0; neighbor < cameras[i].numSiblings + 1; neighbor++) {
+	for (int neighbor = 0; neighbor < cameras[i].numSiblings; neighbor++) {
 		const std::string topic = std::string("camera/") + std::to_string(i) + std::string("/") + std::to_string(neighbor) + std::string("/image"); 
 		cv_connectors.push_back(new OpenCVConnector(topic));
 	}

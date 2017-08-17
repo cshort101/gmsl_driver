@@ -190,6 +190,13 @@ void Camera::initSerializer(ProgramArguments arguments) {
        std::cout << "Serializer created" << std::endl;
 }
 
+/*--------------------------------------------------------------------------*/
+
+
+/* Read frames from every camera on the csi-port and add them to the image pool */
+
+
+
 
 /*--------------------------------------------------------------------------*/
 
