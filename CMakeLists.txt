@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(gmsl_single_camera)
+project(gmsl_n_cameras)
 
 set (CMAKE_CXX_STANDARD 11)
 
@@ -16,6 +16,10 @@ find_package(GLEW REQUIRED)
 find_package(Driveworks REQUIRED)
 find_package(OpenCV REQUIRED )
 
+# SET THESE VARIABLES TO YOUR DRIVEWORKS LOCATIONS
+set(Driveworks_INCLUDE_DIR /usr/local/driveworks/include/)
+set(Driveworks_LIBRARY /usr/local/driveworks/lib/)
+
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   geometry_msgs
@@ -28,6 +32,9 @@ catkin_package(
 )
 link_directories(
   ${Driveworks_LIBRARY})
+
+
+MESSAGE("Driveworks include directory ${Driveworks_INCLUDE_DIR}")
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
@@ -51,7 +58,10 @@ add_executable(${NODE_NAME} src/main.cpp
   src/ConsoleColor.cpp
   src/WindowEGL.cpp
   src/WindowGLFW.cpp  
-  src/cv_connection.cpp  
+  src/cv_connection.cpp
+  src/ResourceManager.cpp
+  src/SampleFramework.cpp
+  src/Camera.cpp
 )
 target_link_libraries(${NODE_NAME}
   ${catkin_LIBRARIES}
