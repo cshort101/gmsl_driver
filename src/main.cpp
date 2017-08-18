@@ -116,7 +116,7 @@ void runNvMedia_pipeline(WindowBase *window, dwRendererHandle_t renderer, dwCont
 
 void sig_int_handler(int sig);
 void sig_handler(int sig);
-//void keyPressCallback(int key);
+void userKeyPressCallback(int key);
 
 //------------------------------------------------------------------------------
 int main(int argc, const char **argv)
@@ -141,7 +141,7 @@ int main(int argc, const char **argv)
 
     });
 
-    gResources.initializeResources(argc, argv, &arguments, keyPressCallback);
+    gResources.initializeResources(argc, argv, &arguments, userKeyPressCallback);
     std::vector<Camera> cameras;
 
     // Set up linux signal handlers
@@ -217,7 +217,7 @@ void initGL(WindowBase **window)
         gResources.window = new WindowGLFW(1280, 800);
 
     (gResources.window)->makeCurrent();
-    (gResources.window)->setOnKeypressCallback(keyPressCallback);
+    (gResources.window)->setOnKeypressCallback(userKeyPressCallback);
 }
 
 
@@ -312,7 +312,7 @@ void runNvMedia_pipeline(WindowBase *window, dwRendererHandle_t renderer, dwCont
 
 
     // Message msg;
-    while (g_run) {
+    while (g_run && ros::ok()) {
 	for (int i = 0; i < cameras.size(); i++) {
 		Camera camera = cameras[i];
 
@@ -454,6 +454,11 @@ void sig_handler(int sig)
 }
 
 ////------------------------------------------------------------------------------
-//void keyPressCallback(int key)
-//{
-//}
+void userKeyPressCallback(int key)
+{
+    // stop application
+    if (key == GLFW_KEY_ESCAPE)
+        gRun = false;
+}
+	
+
