@@ -1,0 +1,15 @@
+<launch>
+
+<!-- 
+     This file launches a node that publishes images from GMSL cameras on a DrivePX2 to rostopics 
+     Once running, each camera group has a node running under /camera/<groupidx>.
+     For each camera group, the cameras are published under /camera/<groupidx>/<cameraidx> starting
+     with  port 0, 1, 2, 3. Note that a camera's images will be published under the next available topic
+     number even if not all four cameras are attached to a group. Likewise, if a camera group is skipped
+     that camera's group number will be used for the next topic
+-->
+
+	<node name="gmsl_n_cameras" pkg="gmsl_n_cameras" type="gmsl_n_cameras_node" args="--selector-mask=$(arg selector-mask)"/> 
+
+
+</launch>

@@ -63,6 +63,7 @@ add_executable(${NODE_NAME} src/main.cpp
   src/SampleFramework.cpp
   src/Camera.cpp
 )
+
 target_link_libraries(${NODE_NAME}
   ${catkin_LIBRARIES}
   nvmedia  
