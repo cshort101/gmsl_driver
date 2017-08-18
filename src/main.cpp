@@ -116,7 +116,7 @@ void runNvMedia_pipeline(WindowBase *window, dwRendererHandle_t renderer, dwCont
 
 void sig_int_handler(int sig);
 void sig_handler(int sig);
-void keyPressCallback(int key);
+//void keyPressCallback(int key);
 
 //------------------------------------------------------------------------------
 int main(int argc, const char **argv)
@@ -249,7 +249,6 @@ void initSensors(dwSALHandle_t sal, std::vector<Camera> &cameras)
         if (cnt[p] > 0) {
             std::string params;
 	
-	    std::cout << "Making camera at port " << port[p] << std::endl;
             params += std::string("csi-port=") + port[p];
             params += ",camera-type=" + gArguments.get((std::string("type-") + port[p]).c_str());
             params += ",camera-count=4"; // when using the mask, just ask for a;ll cameras, mask will select properly
@@ -271,7 +270,6 @@ void initSensors(dwSALHandle_t sal, std::vector<Camera> &cameras)
 	    Camera *cam = new Camera(salSensor, salParams, gResources.getSAL(), gResources.getSDK(), gArguments, recordCamera);
             cameras.push_back(*cam);
 	    (g_numCameras) += cam->numSiblings;
-	    std::cout << "Camera created as port " << port[p] << std::endl;
         }    
     }
 }
@@ -295,7 +293,6 @@ void runNvMedia_pipeline(WindowBase *window, dwRendererHandle_t renderer, dwCont
 
 
 
-    std::cout << "A" << std::endl;
 
     int argc = 0; char** argv = nullptr;
     ros::init(argc, argv, "image_publisher");
@@ -312,14 +309,11 @@ void runNvMedia_pipeline(WindowBase *window, dwRendererHandle_t renderer, dwCont
 		cv_connectors.push_back(new OpenCVConnector(topic));
 	}
     }
-    std::cout << "CV connectors created" << std::endl;
 
-    std::cout << "Num cameras: " << cameras.size() << std::endl;
 
     // Message msg;
     while (g_run) {
 	for (int i = 0; i < cameras.size(); i++) {
-		std::cout << "Processing camera " << i << std::endl;
 		Camera camera = cameras[i];
 
 		//Get Camera properties
@@ -346,7 +340,6 @@ void runNvMedia_pipeline(WindowBase *window, dwRendererHandle_t renderer, dwCont
 			}
 
 
-		std::cout << "B" << std::endl;
 			// get embedded lines
 			if( cameraProperties.outputTypes & DW_CAMERA_DATALINES) {
 			    const dwCameraDataLines* dataLines = nullptr;
@@ -365,7 +358,6 @@ void runNvMedia_pipeline(WindowBase *window, dwRendererHandle_t renderer, dwCont
 			}
 
 
-		std::cout << "C" << std::endl;
 			if (frame && recordCamera ) {
 			    dwSensorSerializer_serializeCameraFrameAsync(frameHandle, camera.serializer);
 			}
@@ -394,10 +386,8 @@ void runNvMedia_pipeline(WindowBase *window, dwRendererHandle_t renderer, dwCont
 				    NvMediaImageSurfaceMap surfaceMap;
 				    if (NvMediaImageLock(rgbaImage->img, NVMEDIA_IMAGE_ACCESS_READ, &surfaceMap) == NVMEDIA_STATUS_OK)
 				    {
-						std::cout << "Writing to Open CV" << std::endl;
 				       
 						cv_connectors[camIdx]->WriteToOpenCV((unsigned char*)surfaceMap.surface[0].mapping, rgbaImage->prop.width, rgbaImage->prop.height);
-						std::cout << "Wrote to Open CV" << std::endl;
 					/*char fname[128];
 					sprintf(fname, "screenshot_%04d.png", gScreenshotCount++);
 					lodepng_encode32_file(fname, (unsigned char*)surfaceMap.surface[0].mapping, rgbaImage->prop.width, rgbaImage->prop.height);
@@ -441,11 +431,9 @@ void runNvMedia_pipeline(WindowBase *window, dwRendererHandle_t renderer, dwCont
 			}
 
 			dwSensorCamera_returnFrame(&frameHandle);
-			std::cout << "Frame returned " << std::endl;
 
 			if (window)
 			    window->swapBuffers();
-			std::cout << "Window buffers swapped" << std::endl;
 		}
 	 }
     }
