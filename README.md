@@ -5,3 +5,4 @@ After first cmake, need to manually change the directories for driveworks and dr
 Require image_transport and cv_bridge in ROS
 Add email address to package.xml
 
+Thanks to Colin Weinshenker for his work on multiple camera driver. 
