@@ -1,0 +1,7 @@
+<library path="lib/libgmsl_driver_nodelet">
+  <class name="camera_driver/gmsl_driver_nodelet" type="camera_driver::gmsl_driver_nodelet" base_class_type="nodelet::Nodelet">
+    <description> 
+      description of the nodelet goes here
+    </description>
+  </class>
+</library>

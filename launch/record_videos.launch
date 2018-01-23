@@ -1,0 +1,12 @@
+<launch>
+
+  <node pkg="nodelet" type="nodelet" name="standalone_nodelet" output="screen" args="manager" />
+
+  <node pkg="nodelet" type="nodelet" name="gmsl_driver_nodelet" args="load camera_driver/gmsl_driver_nodelet standalone_nodelet" output="screen" required="true">
+    <rosparam file="$(find gmsl_driver_nodelet)/config/record.yaml" command="load" />
+  </node>
+
+</launch>
+
+
+
