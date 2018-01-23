@@ -1,4 +1,4 @@
-# We've changed the driver to be a ROS nodelet so you can `catkin_make` in your ros wss. However, due to NVIDIA confidential requirement, we chould only share the CMakeFile, nodelet template etc. All other src files, please modify it to meet your own requirements. Also, we manage it to record videos as h264 files, and only store timestamp and frame info to ROS. For post processing, you can write a h264 publisher to publish images in h264 to ROS, which will work like a ROSbag. 
+# We've changed the driver to be a ROS nodelet so you can `catkin_make` in your ros ws. However, due to NVIDIA confidential requirement, we could only share the CMakeFile, nodelet template etc. All other src files, please modify it to meet your own requirements. Also, we manage it to record videos as h264 files, and only store timestamp and frame info to ROS. For post processing, you can write a h264 publisher to publish images in h264 to ROS, which will work like a ROSbag. 
 
 
 ## ROS driver for NVIDIA gmsl camera(s)
